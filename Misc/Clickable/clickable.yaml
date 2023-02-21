@@ -1,0 +1,61 @@
+framework: ubuntu-sdk-20.04
+clickable_minimum_required: 7.1.2
+kill: pixelorama
+builder: custom
+
+build:
+- ${ROOT}/build-ubports.sh
+build_dir: ${ROOT}/build
+
+dependencies_host:
+- wget
+- libgles2
+
+dependencies_target:
+- mono-runtime-common
+- libsdl2-2.0
+- libasound2
+- libglib2.0-0
+- libfreetype6
+- libvpx6
+- libsndio7.0
+
+libraries:
+  godot:
+    builder: custom
+    build: ${ROOT}/ubports-godot/build-ubports.sh ${ARCH} ${ARCH_TRIPLET}
+    build_dir: ${ROOT}/ubports-godot
+    dependencies_target:
+    - scons
+    - libsdl2-2.0
+    - libsdl2-dev
+    - libxcursor-dev
+    - libtheora-dev
+    - xvfb
+    - libxinerama-dev
+    - libgl1-mesa-dev
+    - libglu-dev
+    - libasound2-dev
+    - libpulse-dev
+    - libudev-dev
+    - libxi-dev
+    - libxrandr-dev
+    - yasm
+    - libx11-dev
+    - libvpx6
+    - libvpx-dev
+    - libvorbis-dev
+
+install_data:
+  ${BUILD_DIR}/godot: ${INSTALL_DIR}
+  ${ROOT}/click/*: ${INSTALL_DIR}
+  ${ROOT}/pixelorama_data/*: ${INSTALL_DIR}/pixelorama_data
+  ${ROOT}/*.pck: ${INSTALL_DIR}
+
+
+install_lib:
+- /usr/lib/${ARCH_TRIPLET}/libvpx.so.6*
+- /usr/lib/${ARCH_TRIPLET}/libsndio.so.7.0
+- /usr/lib/${ARCH_TRIPLET}/libvorbis.so.0*
+- /usr/lib/${ARCH_TRIPLET}/libSDL2-2.0.so*
+
